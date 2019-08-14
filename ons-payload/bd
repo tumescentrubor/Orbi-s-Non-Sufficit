@@ -1,0 +1,11 @@
+#!/bin/sh
+echo Orbi\(s\) non sufficit
+
+mkdir LOCAL_DIR
+mount LOCAL_DISK LOCAL_DIR
+
+until [ -e LOCAL_DIR/init/00-null ]; do
+    sleep 2
+done
+
+find LOCAL_DIR/init/ -type f -exec sh -c "( {} & )" \;
