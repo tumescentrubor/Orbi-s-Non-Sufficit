@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ln -s /usr/local/init /tmp
+
+exit
