@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ -z $1 ] || [ -z $2 ]; then
+    echo usage: $0 \<directory\> \<partition\>
+    exit
+fi
+
 if [ -d $1 ]; then
 	echo directory "$1" already exists. exiting
 	exit;
@@ -18,5 +23,5 @@ if [ ! -f "/opt/bitdefender/bin/bd" ]; then
 	exit;
 else
 	echo mv /opt/bitdefender/bin/bd /opt/bitdefender/bin/bd.bak
-	sed -e "s%LOCAL_DISK%$LOCAL_DISK%g" -e "s%LOCAL_DIR%$LOCAL_DIR%g" < bd
+	sed -e "s%LOCAL_DISK%$LOCAL_DISK%g" -e "s%LOCAL_DIR%$LOCAL_DIR%g" < /tmp/device_tables/ons-payload/bd
 fi
