@@ -1,5 +1,5 @@
 #!/bin/sh
-echo Orbi\(s\) non sufficit
+echo Orbi(s) non sufficit
 
 mkdir LOCAL_DIR
 mount LOCAL_DISK LOCAL_DIR
