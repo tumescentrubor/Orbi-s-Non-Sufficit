@@ -1,8 +1,9 @@
 #!/usr/bin/nodejs
 
 var global=new Object();
+//global.orbiAddress="192.168.86.99";
 var listeningPort=8886;
-var myIPaddress="192.168.86.3";
+//var myIPaddress="192.168.86.3";
 var targetPartition='';
 
 if ( ! global.password ) {
@@ -21,10 +22,12 @@ if ( ! global.password ) {
 
 function initialize() {
     require('dns').lookup(require('os').hostname(), function (err, myAddress, fam) {
-	global.orbiAddress=myAddress;
-	var tmp=global.orbiAddress.split('.');
-	tmp[3]=1;
-	global.orbiAddress=tmp.join('.');
+	if ( ! global.orbiAddress ) {
+	    global.orbiAddress=myAddress;
+	    var tmp=global.orbiAddress.split('.');
+	    tmp[3]=1;
+	    global.orbiAddress=tmp.join('.');
+	}
 	startNCserver();
 	initialPartitionDetect(myAddress,listeningPort,choosePartition);
     })
@@ -45,6 +48,7 @@ function initialize() {
     function initialPartitionDetect(myAddress,listeningPort,callback) {
 	var et=require("expect-telnet");
 	var result;
+	console.log('connect to '+global.orbiAddress);
 	et(global.orbiAddress+":23", [
 	    {expect: "login", send: "admin\r"},
 	    {expect: "assword", send: global.password+"\r"},
@@ -102,13 +106,15 @@ function choosePartition(partitionData) {
 }
 
 function setup(partition) {
+    console.log('beginning setup');
+    var mountpoint="/usr/local";
     var et=require("expect-telnet");
     var result;
     et(global.orbiAddress+":23", [
 	{expect: "login", send: "admin\r"},
 	{expect: "assword", send: global.password+"\r"},
 	{expect: "#", send: "cd /tmp/device_tables\r"},
-	{expect: "#", send: "./ons-payload/subvert_bd.sh /usr/heyafubar "+partition+"\r"},
+	{expect: "#", send: "./ons-payload/first_install.sh "+mountpoint+" "+partition+"\r"},
 	{expect: "#", out: function (output) {
 	    console.log(output);
 	}, send: "exit\r"}
