@@ -21,6 +21,7 @@ chmod 0700 /etc/dropbear
 chmod 0600 /etc/dropbear/*
 if [ ! -f /etc/dropbear/dropbear_rsa_host_key ]; then
 	/usr/local/dropbear/usr/bin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
+	cp -a /etc/dropbear/dropbear_rsa_host_key /usr/local/dropbear/etc/dropbear/dropbear_rsa_host_key
 fi
 
 ln -s /usr/local/dropbear/usr/sbin/dropbear /usr/sbin/dropbear
