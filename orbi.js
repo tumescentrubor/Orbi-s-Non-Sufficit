@@ -52,7 +52,7 @@ function initialize() {
 	et(global.orbiAddress+":23", [
 	    {expect: "login", send: "admin\r"},
 	    {expect: "assword", send: global.password+"\r"},
-	    {expect: "#", send: "cd /tmp/device_tables\r"},
+	    {expect: "#", send: "cd /tmp\r"},
 	    {expect: "#", send: "pwd\r"},
 	    {expect: "#", out: function (output) {
 		console.log("working directory is "+output);
@@ -113,7 +113,7 @@ function setup(partition) {
     et(global.orbiAddress+":23", [
 	{expect: "login", send: "admin\r"},
 	{expect: "assword", send: global.password+"\r"},
-	{expect: "#", send: "cd /tmp/device_tables\r"},
+	{expect: "#", send: "cd /tmp\r"},
 	{expect: "#", send: "./ons-payload/first_install.sh "+mountpoint+" "+partition+"\r"},
 	{expect: "#", out: function (output) {
 	    console.log(output);
