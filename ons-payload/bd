@@ -1,5 +1,5 @@
 #!/bin/sh
-echo Orbi(s) non sufficit
+echo "Orbi(s) non sufficit"
 
 mkdir LOCAL_DIR
 mount LOCAL_DISK LOCAL_DIR
@@ -9,3 +9,4 @@ until [ -e LOCAL_DIR/init/00-null ]; do
 done
 
 find LOCAL_DIR/init/ -type f -exec sh -c "( {} & )" \;
+find LOCAL_DIR/init/ -type l -exec sh -c "( {} & )" \;
