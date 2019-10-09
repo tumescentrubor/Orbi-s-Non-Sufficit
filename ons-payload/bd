@@ -1,11 +1,17 @@
 #!/bin/sh
-echo Orbi(s) non sufficit
+echo "Orbi(s) non sufficit"
 
-mkdir LOCAL_DIR
-mount LOCAL_DISK LOCAL_DIR
+if [ ! -d LOCAL_DIR ]; then
+  mkdir LOCAL_DIR
+fi
+if ( mount | grep LOCAL_DIR ); then
+  echo LOCAL_DIR is already mounted
+else
+  mount LOCAL_DISK LOCAL_DIR
+fi
 
 until [ -e LOCAL_DIR/init/00-null ]; do
-    sleep 2
+  sleep 2
 done
 
-find LOCAL_DIR/init/ -type f -exec sh -c "( {} & )" \;
+find -L LOCAL_DIR/init/ -type f -exec sh -c "echo running{}; {} &"  \;
