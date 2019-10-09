@@ -15,6 +15,9 @@ done
 if [ -d /etc/dropbear ]; then
   echo /etc/dropbear already exists
 else
+  if [ ! -d /usr/local/dropbear/etc/dropbear ]; then
+    mkdir /usr/local/dropbear/etc/dropbear
+  fi
   cp -a /usr/local/dropbear/etc/* /etc
 fi
 chmod 0700 /etc/dropbear
