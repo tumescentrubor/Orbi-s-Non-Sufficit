@@ -1,5 +1,6 @@
 #!/usr/bin/nodejs
 
+// This is a comment
 var global=new Object();
 //global.orbiAddress="192.168.86.99";
 var listeningPort=8886;
