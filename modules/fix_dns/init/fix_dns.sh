@@ -4,15 +4,6 @@ UPDATE_INTERVAL=15
 BLOCKLIST="/usr/local/adblock/blocklist"
 DHCPHOSTLIST="/tmp/dhcpd_hostlist"
 
-FIRST_LINE="search gyre"
-STATIC="127.0.0.1 localhost
-192.168.86.1 orbi orbi.gyre
-192.168.86.1 www.routerlogin.net
-192.168.86.99 satellite satellite.gyre
-192.168.86.3 albedo
-192.168.86.4 deluge
-192.168.86.30 radiology www"
-
 echo "#!/bin/sh
 
 . /usr/local/lib/networkfunctions.sh
@@ -25,9 +16,13 @@ updatehost () {
         blocklist_md5=\`md5sum $BLOCKLIST | cut -f 1 -d ' '\`
 
         UPDATETMP=\`/bin/mktemp\`
-	echo \"$STATIC\" > \$UPDATETMP
+	if [ -f /tmp/device_tables/etc/static_hosts ]; then
+            # /tmp/device_tables/etc/static_hosts *may* contain a list of
+            # hosts to have as static routes, use traditional /etc/hosts
+            #format
+            cat /tmp/device_tables/etc/static_hosts >> \$UPDATETMP
+        fi
         list_all_hostnames >> \$UPDATETMP
-        echo $FIRST_LINE > /etc/hosts
         uniq < \$UPDATETMP >> /etc/hosts
 
 	cat $BLOCKLIST >> /etc/hosts
